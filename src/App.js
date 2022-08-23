@@ -48,17 +48,42 @@ class App extends React.Component {
                 // 1: 点赞 0：无态度 -1:踩
                 attitude: -1
             }
-        ]
+        ],
+        comment: '评论在哪里' // LYDIA评论框内容
     }
 
     switchTab = (type) => {
       console.log(type, '点击动作')
-      // 点谁把谁的type传给active
+      // LYDIA点谁把谁的type传给active
       this.setState({
         active: type
       })
     }
+    // 拿到事件对象e
+    textareaChange = (e) => {
+        this.setState({
+          comment: e.target.value
+        })
+      console.log(this.state.comment)
+    }
 
+    // 提交评论
+    // 往state.list里加东西
+    submitComment = () => {
+        this.setState({
+          list:[
+              ...this.state.list,
+            {
+              id: 1,
+              author: 'LYDIA',
+              comment: this.state.comment,
+              time: new Date(),
+              // 1: 点赞 0：无态度 -1:踩
+              attitude: 0
+            }
+          ]
+        })
+    }
 
     render() {
         return (
@@ -89,13 +114,18 @@ class App extends React.Component {
                             <img className="user-head" src={avatar} alt=""/>
                         </div>
                         <div className="textarea-container">
-              <textarea
-                  cols="80"
-                  rows="5"
-                  placeholder="发条友善的评论"
-                  className="ipt-txt"
-              />
-                            <button className="comment-submit">发表评论</button>
+                            {/*LYDIA输入框 受控组件*/}
+                            <textarea
+                                cols="80"
+                                rows="5"
+                                placeholder="发条友善的评论"
+                                className="ipt-txt"
+                                // LYDIA加一个输入框属性
+                                value={this.state.comment}
+                                // LYDIA受控组件回调
+                                onChange={this.textareaChange}
+                            />
+                            <button className="comment-submit" onClick={this.submitComment}>发表评论</button>
                         </div>
                         <div className="comment-emoji">
                             <i className="face"></i>
@@ -117,11 +147,11 @@ class App extends React.Component {
                                         <div className="info">
                                             <span className="time">{formatDate(item.time)}</span>
                                             <span className={item.attitude === 1 ? 'like liked' : 'like'}>
-                        <i className="icon"/>
-                      </span>
-                                            <span className={item.attitude === -1 ? 'hate hated' : 'hate'}>
-                        <i className="icon"/>
-                      </span>
+                                              <i className="icon"/>
+                                            </span>
+                                                                  <span className={item.attitude === -1 ? 'hate hated' : 'hate'}>
+                                              <i className="icon"/>
+                                            </span>
                                             <span className="reply btn-hover">删除</span>
                                         </div>
                                     </div>
