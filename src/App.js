@@ -15,7 +15,7 @@ const state = {
       type: 'time'
     }
   ],
-  active: 'hot',
+  active: 'hot',  // 控制tab的开关
   // 一个vscode和仓库的测试
   // 评论列表的数据
   list: [
@@ -69,6 +69,7 @@ function activeAttitudeHate (num) {
   }
 }
 
+
 function App () {
   return (
     <div className="App">
@@ -81,7 +82,12 @@ function App () {
         <div className="tabs-order">
           <ul className="sort-container">
             {/* LYDIA 顺序渲染 list*/}
-            {state.tabs.map(tab => <li key={tab.id} className={tab.type === state.active ? 'on' : ''}>按{tab.name}排序</li>)}
+            {state.tabs.map(tab => (
+                <li key={tab.id}
+                    onClick={this.switchTab}
+                    className={tab.type === state.active ? 'on' : ''}>
+                  按{tab.name}排序
+                </li>))}
           </ul>
         </div>
 
