@@ -93,7 +93,47 @@ class App extends React.Component {
             list: this.state.list.filter(item => item.id !== id)
         })
     }
+    // LYDIA 点赞
+    toggleLike = (curItem) => {
+        // console.log(curItem)
+        // 需要修改attitude，通过id做标识
+        const {attitude, id} = curItem
+        this.setState({
+            list: this.state.list.map(item => {
+                // 如果item.id === id，把当前item attitude的属性修改一下
+                if(item.id === id){
+                    return{
+                        ...item,
+                        attitude: attitude === 1? 0:1
+                    }
+                } else{
+                    return item
+                }
 
+            })
+        })
+    }
+
+    // LYDIA 点踩
+    toggleHate = (curItem) => {
+        // console.log(curItem)
+        // 需要修改attitude，通过id做标识
+        const {attitude, id} = curItem
+        this.setState({
+            list: this.state.list.map(item => {
+                // 如果item.id === id，把当前item attitude的属性修改一下
+                if(item.id === id){
+                    return{
+                        ...item,
+                        attitude: attitude === -1? 0:-1
+                    }
+                } else{
+                    return item
+                }
+
+            })
+        })
+    }
     render() {
         return (
             <div className="App">
@@ -155,10 +195,14 @@ class App extends React.Component {
                                         <p className="text">{item.comment}</p>
                                         <div className="info">
                                             <span className="time">{formatDate(item.time)}</span>
-                                            <span className={item.attitude === 1 ? 'like liked' : 'like'}>
+                                            <span
+                                                onClick={() => this.toggleLike(item)}
+                                                className={item.attitude === 1 ? 'like liked' : 'like'}>
                                               <i className="icon"/>
                                             </span>
-                                                                  <span className={item.attitude === -1 ? 'hate hated' : 'hate'}>
+                                            <span
+                                                onClick={() => this.toggleHate(item)}
+                                                className={item.attitude === -1 ? 'hate hated' : 'hate'}>
                                               <i className="icon"/>
                                             </span>
                                             <span className="reply btn-hover" onClick={()=>this.deleteComment(item.id)}>删除</span>
